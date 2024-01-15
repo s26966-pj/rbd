@@ -1,0 +1,16 @@
+Schemat przedstawia baze danych sklepu internetowego zajmującego się sprzedażą elektroniki.
+
+Składa sie w sumie z 8 tabel:
+1. Adresy
+2. Klienci
+3. Magazyny
+4. Pracownicy
+5. Producenci
+6. Produkty
+7. Zamówienia
+8. Zwroty
+
+oraz 3 tabel pośredniczących, niezbędnych do realizacji relacji wiele-wielu (na schemacie tabele z kolorem czerwonym):
+1. Stany_magazynowe (określa ile danego produkty znajduje w okreslonym magazynie)
+2. Produkty_do_zamówienia (określa ile danego produktu znajduje się w określonym zamówieniu)
+3. Produkty_do_zwrotu (analogicznie)
