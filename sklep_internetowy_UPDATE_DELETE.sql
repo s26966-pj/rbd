@@ -93,4 +93,14 @@ UPDATE Zwroty
 SET
     ID_Pracownika = 1
 WHERE
-    ID_Pracownika = 5
+    ID_Pracownika = 5;
+    
+SET FOREIGN_KEY_CHECKS = 0;
+
+DELETE FROM Adresy WHERE Numer_domu = 43;
+
+DELETE FROM Adresy WHERE Kod_pocztowy LIKE "80-%";
+
+DELETE FROM Klienci WHERE Nazwisko = "Ptak";
+
+DELETE FROM Klienci WHERE ID_Klienta NOT IN(2,4,5,6);

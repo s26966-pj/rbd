@@ -4,7 +4,7 @@ CREATE TABLE
     Województwo varchar(255) NOT NULL,
     Powiat varchar(255) NOT NULL,
     Miejscowość varchar(255) NOT NULL,
-    Adres_pocztowy char(6) NOT NULL,
+    Kod_pocztowy char(6) NOT NULL,
     Ulica varchar(255) NOT NULL,
     Numer_domu varchar(5) NOT NULL,
     Numer_lokalu int NULL,
@@ -160,7 +160,7 @@ INSERT INTO
     Województwo,
     Powiat,
     Miejscowość,
-    Adres_pocztowy,
+    Kod_pocztowy,
     Ulica,
     Numer_domu,
     Numer_lokalu
