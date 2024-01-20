@@ -95,12 +95,79 @@ SET
 WHERE
     ID_Pracownika = 5;
     
+
 SET FOREIGN_KEY_CHECKS = 0;
 
 DELETE FROM Adresy WHERE Numer_domu = 43;
 
-DELETE FROM Adresy WHERE Kod_pocztowy LIKE "80-%";
+DELETE FROM Adresy WHERE Kod_pocztowy LIKE '80-%';
 
-DELETE FROM Klienci WHERE Nazwisko = "Ptak";
+DELETE FROM Klienci WHERE Nazwisko = 'Ptak';
 
 DELETE FROM Klienci WHERE ID_Klienta NOT IN(2,4,5,6);
+
+DELETE FROM Magazyny WHERE ID_Magazynu = '4';
+
+DELETE FROM Magazyny WHERE Czynny = '1';
+
+DELETE FROM Pracownicy WHERE Nazwisko = 'Kowalski';
+
+DELETE FROM Pracownicy WHERE ID_Magazynu != '1';
+
+DELETE FROM Producenci WHERE Nazwa = 'JBL';
+
+DELETE FROM Producenci WHERE Data_założenia > '1950-01-01';
+
+DELETE FROM Produkty WHERE Kategoria = 'myszka';
+
+DELETE FROM Produkty WHERE Cena_brutto BETWEEN 1000 AND 3000;
+
+DELETE FROM Zamówienia WHERE ID_Zamówienia = 8;
+
+DELETE FROM Zamówienia WHERE Data_wysłania = NULL;
+
+DELETE FROM Zwroty WHERE ID_Zwrotu = 1;
+
+DELETE FROM Zwroty WHERE Czy_przyjeto = 1;
+
+
+TRUNCATE TABLE Magazyny;
+
+ALTER TABLE Produkty DROP COLUMN Opis;
+
+--unikalne wojewodztwa które występują w adresach
+SELECT DISTINCT Województwo FROM Adresy;
+
+--suma wszystkich produktów w magazynach
+SELECT SUM(Ilość) AS 'Suma produktów'
+FROM Stany_magazynowe
+GROUP BY ID_Magazynu
+ORDER BY ID_Magazynu ASC;
+
+--liczba zamowien bez zwrotu
+SELECT COUNT(Zamówienia.ID_Zamówienia) AS 'Liczba zamówień bez zwrotu'
+FROM Zamówienia
+LEFT JOIN Zwroty ON Zamówienia.ID_Zamówienia = Zwroty.ID_Zamówienia 
+WHERE ID_Zwrotu IS NULL;
+
+--ile klienci złożyli zamówień
+SELECT Imie, Nazwisko, COUNT(ID_Zamówienia) AS 'Liczba zamówień'
+FROM Klienci
+LEFT JOIN Zamówienia ON Zamówienia.ID_Klienta = Klienci.ID_Klienta
+GROUP BY Klienci.ID_Klienta
+ORDER BY COUNT(ID_Zamówienia) DESC;
+
+--najlepiej zarabiający pracownik
+SELECT Imie, Nazwisko, MAX(Wynagrodzenie_brutto) FROM Pracownicy;
+
+--zamówienia w których jest więcej niż 1 produkt
+SELECT ID_Zamówienia, SUM(Ilość) AS 'Ilość produktów'
+FROM Produkty_do_zamówienia
+GROUP BY ID_Zamówienia 
+HAVING SUM(Ilość) > 1;
+
+--produkty które nie znajdują się w żadnym zamówieniu
+SELECT * FROM Produkty 
+WHERE NOT EXISTS
+(SELECT * FROM Produkty_do_zamówienia
+WHERE Produkty_do_zamówienia.ID_Produktu = Produkty.ID_Produktu);
